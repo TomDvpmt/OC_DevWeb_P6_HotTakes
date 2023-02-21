@@ -38,11 +38,17 @@ exports.updateSauce = (req, res, next) => {
     } : { ...req.body };
     delete sauceObject.userId;
     
+    const upload = req.file ? true : false;
+
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
         if(sauce.userId != req.auth.userId) {
             res.status(403).json({message: "Forbidden access."})
         } else {
+            if(upload) {
+                const formerFileName = sauce.imageUrl.split("/images/")[1];
+                fs.unlink(`images/${formerFileName}`, () => {});
+            }
             Sauce.updateOne(
                 {_id: req.params.id},
                 {

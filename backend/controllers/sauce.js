@@ -43,7 +43,7 @@ exports.updateSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
         if(sauce.userId != req.auth.userId) {
-            res.status(403).json({message: "Forbidden access."})
+            res.status(403).json({message: "Unauthorized request."})
         } else {
             if(upload) {
                 const formerFileName = sauce.imageUrl.split("/images/")[1];
@@ -66,7 +66,7 @@ exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
         if(sauce.userId != req.auth.userId) {
-            res.status(403).json({message: "Forbidden access."});
+            res.status(403).json({message: "Unauthorized request."});
         } else {
             const filename = sauce.imageUrl.split("/images/")[1];
             fs.unlink(`images/${filename}`, () => {

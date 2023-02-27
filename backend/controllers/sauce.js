@@ -17,6 +17,9 @@ exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject.userId;
 
+  const dataToSanitize = ["name", "manufacturer", "description", "mainPepper"];
+  dataToSanitize.forEach(data => sauceObject[data] = sauceObject[data].replaceAll(/<\/?[^>]+(>|$)/gi, ""));
+
   const sauce = new Sauce({
     ...sauceObject,
     userId: req.auth.userId,

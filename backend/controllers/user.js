@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
         .then(() => res.status(201).json({message: "User created !"}))
         .catch(() => res.status(400).json({message: "Signup failed."}));
     })
-    .catch(() => res.status(500).json({message: "Server error, signup impossible."}));
+    .catch(() => res.status(500).json({message}));
 };
 
 exports.login = (req, res, next) => {
